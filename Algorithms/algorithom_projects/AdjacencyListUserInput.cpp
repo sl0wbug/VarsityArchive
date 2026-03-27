@@ -1,35 +1,61 @@
 #include <iostream>
 #include <vector>
-using namespace std;
-int main()
-{
-    int vertices, edges;
+#include <stdexcept>
 
-    cout << "Enter number of vertices: ";
-    cin >> vertices;
-    cout << "Enter number of edges: ";
-    cin >> edges;
+class AdjacencyList {
+public:
+    explicit AdjacencyList(int vertices) : adjacencyList(vertices) {}
 
-    vector<vector<int>> adjList(vertices);
-
-    cout << "Enter edges (format: u v means edge from u to v):\n";
-    for (int i = 0; i < edges; ++i)
-    {
-        int u, v;
-        cin >> u >> v;
-        adjList[u].push_back(v);//dynamically add elements 
-        adjList[v].push_back(u);//from u to v and v to u at once, 
+    void addEdge(int vertex1, int vertex2) {
+        validateVertex(vertex1);
+        validateVertex(vertex2);
+        adjacencyList[vertex1].push_back(vertex2);
+        adjacencyList[vertex2].push_back(vertex1);  // Assuming undirected graph
     }
-    cout << "\nAdjacency List:\n";
-    for (int i = 0; i < vertices; ++i)
-    {
-        cout << i << ": ";
-        for (int j = 0; j < adjList[i].size(); ++j)//similar to std::adjList funtion 
-        {
-            cout << adjList[i][j] << " ";
+
+    void printGraph() const {
+        for (size_t i = 0; i < adjacencyList.size(); ++i) {
+            std::cout << "Vertex " << i << " connects to:";
+            for (const auto &vertex : adjacencyList[i]) {
+                std::cout << " " << vertex;
+            }
+            std::cout << std::endl;
         }
-        cout << "\n";
     }
 
+private:
+    std::vector<std::vector<int>> adjacencyList;
+
+    void validateVertex(int vertex) const {
+        if (vertex < 0 || vertex >= adjacencyList.size()) {
+            throw std::out_of_range("Vertex out of range");
+        }
+    }
+};
+
+int main() {
+    int numberOfVertices;
+    std::cout << "Enter the number of vertices: ";
+    while (!(std::cin >> numberOfVertices) || numberOfVertices <= 0) {
+        std::cin.clear(); // Clear the error flag
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Ignore the bad input
+        std::cout << "Invalid input. Please enter a positive integer: ";
+    }
+
+    AdjacencyList graph(numberOfVertices);
+    int vertex1, vertex2;
+
+    std::cout << "Enter edges in the format 'vertex1 vertex2' (type -1 -1 to stop):\n";
+    while (true) {
+        std::cin >> vertex1 >> vertex2;
+        if (vertex1 == -1 && vertex2 == -1) break;
+        try {
+            graph.addEdge(vertex1, vertex2);
+        } catch (const std::out_of_range &e) {
+            std::cout << e.what() << '\n';
+        }
+    }
+
+    graph.printGraph();
     return 0;
 }
