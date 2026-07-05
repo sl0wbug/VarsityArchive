@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FocusFlow</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<header>
+  <h1>FocusFlow</h1>
+  <nav>
+    <button onclick="showTab('home')">Home</button>
+    <button onclick="showTab('about')">About</button>
+  </nav>
+</header>
+
+<!-- HOME -->
+<section id="home" class="tab active">
+
+  <div class="grid">
+
+    <!-- TIMER -->
+    <div class="card">
+      <h2>Pomodoro Timer</h2>
+      <div id="timer">25:00</div>
+      <button onclick="startTimer()">Start</button>
+      <button onclick="resetTimer()">Reset</button>
+    </div>
+
+    <!-- TASKS -->
+    <div class="card">
+      <h2>Tasks</h2>
+      <input id="taskInput" placeholder="New task..."/>
+      <button onclick="addTask()">Add</button>
+      <ul id="taskList"></ul>
+    </div>
+
+    <!-- NOTES -->
+    <div class="card">
+      <h2>Notes</h2>
+      <textarea id="notes" placeholder="Write quick notes..."></textarea>
+    </div>
+
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="tab">
+  <div class="card">
+    <h2>About FocusFlow</h2>
+    <p>
+      FocusFlow is a lightweight productivity app built using only HTML, CSS, and JavaScript.
+    </p>
+    <h3>How to use</h3>
+    <ul>
+      <li>Use Pomodoro timer for focused study sessions</li>
+      <li>Add tasks to track your work</li>
+      <li>Write quick notes while studying</li>
+      <li>All data is saved automatically in your browser</li>
+    </ul>
+  </div>
+</section>
+
+<script src="app.js"></script>
+</body>
+</html>
